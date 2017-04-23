@@ -142,7 +142,7 @@ namespace Bogus
             {
                 Action = invoker,
                 RuleSet = currentRuleSet,
-                PropertyName = null
+                PropertyName = guid.ToString()
             };
             this.Actions.Add(currentRuleSet, guid.ToString(), rule);
             return this;
@@ -281,7 +281,7 @@ namespace Bogus
         public virtual T Generate(string ruleSets = null)
         {
             Func<Faker, T> createRule = null;
-            var cleanRules = ParseDirtyRulesSets(ruleSets);
+            string[] cleanRules = ParseDirtyRulesSets(ruleSets);
             
             if ( string.IsNullOrWhiteSpace(ruleSets) )
             {
@@ -347,12 +347,19 @@ namespace Bogus
                             MemberInfo member;
                             typeProps.TryGetValue(action.PropertyName, out member);
                             var valueFactory = action.Action;
+                            if (member != null)
+                            {
+                                var prop = member as PropertyInfo;
+                                prop?.SetValue(instance, valueFactory(FakerHub, instance), null);
 
-                            var prop = member as PropertyInfo;
-                            prop?.SetValue(instance, valueFactory(FakerHub, instance), null);
-
-                            var field = member as FieldInfo;
-                            field?.SetValue(instance, valueFactory(FakerHub, instance));
+                                var field = member as FieldInfo;
+                                field?.SetValue(instance, valueFactory(FakerHub, instance));
+                            }
+                            else
+                            {
+                                //Invoke this if this is a basic rule which does not select a property or a field.
+                                var outputValue = valueFactory(FakerHub, instance);
+                            }
                         }
                     }
                 }

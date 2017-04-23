@@ -30,6 +30,7 @@ namespace Bogus
             this.Hacker = new Hacker();
             this.Image = new Images(locale);
             this.Internet = new Internet(locale);
+            this.Web = new Web(locale);
             this.Lorem = new Lorem(locale);
             this.Name = new Name(locale);
             this.Phone = new PhoneNumbers(locale);
@@ -55,6 +56,7 @@ namespace Bogus
                 this.Hacker,
                 this.Image,
                 this.Internet,
+                this.Web,
                 this.Lorem,
                 this.Name,
                 this.Phone,
@@ -132,6 +134,12 @@ namespace Bogus
         /// </summary>
         [RegisterMustasheMethods]
         public Internet Internet { get; set; }
+
+        /// <summary>
+        /// Generate Internet stuff like Emails and UserNames.
+        /// </summary>
+        [RegisterMustasheMethods]
+        public Bogus.DataSets.Web Web { get; set; }
 
         /// <summary>
         /// Generates data related to commerce
