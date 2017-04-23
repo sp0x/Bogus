@@ -125,6 +125,17 @@ namespace Bogus.DataSets
         {
             return GetRandomArrayItem("country");
         }
+        /// <summary>
+        /// Get a full address like Street, City, Country
+        /// </summary>
+        /// <returns></returns>
+        public string FullAddress()
+        {
+            var street = StreetAddress();
+            var city = City();
+            var country = Country();
+            return string.Format("{0}, {1}, {2}", street, city, country);
+        }
 
         /// <summary>
         /// Get a random country code.

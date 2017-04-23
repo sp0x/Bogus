@@ -245,6 +245,8 @@ namespace Bogus.DataSets
         public string Url()
         {
             return string.Format("{0}://{1}", Protocol(), DomainName());
-        }
+        } 
     }
+
+
 }

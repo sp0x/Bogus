@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Bogus.DataSets
 {
@@ -45,6 +46,17 @@ namespace Bogus.DataSets
 
             var index = formatIndex ?? Random.Number(formats.Length - 1);
             return CompanyName(formats[index]);
+        }
+        /// <summary>
+        /// Gets an array of company names
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public string[] CompanyNames(int count = 0)
+        {
+            var rand = new Random();
+            if (count == 0) count = rand.Next(2, 50);
+            return Enumerable.Range(1, count).Select(i => CompanyName()).ToArray();
         }
 
         /// <summary>
@@ -118,6 +130,7 @@ namespace Bogus.DataSets
             return GetRandomArrayItem("bs_noun");
         }
 #pragma warning restore 1591
+
 
     }
 }

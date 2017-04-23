@@ -36,7 +36,7 @@ namespace Bogus
             this.System = new DataSets.System(locale);
             this.Commerce = new Commerce(locale);
             this.Database = new DataSets.Database();
-
+            this.Occupation = new DataSets.Occupation(locale);
             this.Random = new Randomizer();
 
             this.Hashids = new Hashids();
@@ -60,7 +60,8 @@ namespace Bogus
                 this.Phone,
                 this.System,
                 this.Commerce,
-                this.Database);
+                this.Database,
+                this.Occupation);
         }
 
 
@@ -155,6 +156,12 @@ namespace Bogus
         /// </summary>
         [RegisterMustasheMethods]
         public DataSets.Database Database { get; set; }
+
+        /// <summary>
+        /// Generates fake database things.
+        /// </summary>
+        [RegisterMustasheMethods]
+        public DataSets.Occupation Occupation { get; set; }
 
         /// <summary>
         /// Helper method to pick a random element.

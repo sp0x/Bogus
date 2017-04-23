@@ -72,8 +72,13 @@ namespace Bogus.DataSets
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
-        public string[] Words(int num = 3)
+        public string[] Words(int num = 0, int max = 10)
         {
+            if (max == 0 || max < 0) max = 10;
+            if (num == 0)
+            {
+                num = this.Random.Number(2, max);
+            }
             return Enumerable.Range(1, num).Select(f => Word()).ToArray(); // lol
         }
 

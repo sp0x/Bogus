@@ -23,5 +23,10 @@ namespace Bogus
         {
             return string.Format(format, objs);
         }
+
+        public static string Slashify(IEnumerable<string> parts, string separator = "/")
+        {
+            return string.Join(separator, parts);
+        }
     }
 }

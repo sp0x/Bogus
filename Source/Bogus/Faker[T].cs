@@ -17,8 +17,10 @@ namespace Bogus
 #pragma warning disable 1591
         protected internal Faker FakerHub;
         protected internal IBinder binder;
-        protected internal readonly MultiDictionary<string, string, PopulateAction<T>> Actions = new MultiDictionary<string, string, PopulateAction<T>>(StringComparer.OrdinalIgnoreCase);
-        protected internal readonly Dictionary<string, FinalizeAction<T>> FinalizeActions = new Dictionary<string, FinalizeAction<T>>(StringComparer.OrdinalIgnoreCase);
+        protected internal readonly MultiDictionary<string, string, PopulateAction<T>> Actions =
+            new MultiDictionary<string, string, PopulateAction<T>>(StringComparer.OrdinalIgnoreCase);
+        protected internal readonly Dictionary<string, FinalizeAction<T>> FinalizeActions =
+            new Dictionary<string, FinalizeAction<T>>(StringComparer.OrdinalIgnoreCase);
         protected internal Dictionary<string, Func<Faker, T>> CreateActions = new Dictionary<string, Func<Faker, T>>(StringComparer.OrdinalIgnoreCase);
         protected internal readonly MultiSetDictionary<string, string> Ignores = new MultiSetDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         protected internal readonly Dictionary<string, MemberInfo> TypeProperties;
@@ -123,6 +125,30 @@ namespace Bogus
 
             return this;
         }
+        /// <summary>
+        /// Creates a rule for the object.
+        /// </summary>
+        /// <param name="setter"></param>
+        /// <returns></returns>
+        public Faker<T> Rule(Action<Faker, T> setter)
+        {
+            Func<Faker, T, object> invoker = (f, t) =>
+            {
+                setter(f, t);
+                return null;
+            };
+            var guid = Guid.NewGuid();
+            var rule = new PopulateAction<T>()
+            {
+                Action = invoker,
+                RuleSet = currentRuleSet,
+                PropertyName = null
+            };
+            this.Actions.Add(currentRuleSet, guid.ToString(), rule);
+            return this;
+        }
+
+
 
         /// <summary>
         /// Creates a rule for a property.
