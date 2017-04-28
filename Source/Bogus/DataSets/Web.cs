@@ -13,15 +13,15 @@ namespace Bogus.DataSets
         }
           
 
-        public string FullUrl()
+        public string FullUrl(string domain = null, string protocol = null)
         { 
             var imdb = new Imdb(this.Locale);
             var inet = new Internet(this.Locale);
-            var Protocol = inet.Protocol();
-            var Domain = inet.DomainName();
+            if(string.IsNullOrEmpty(protocol)) protocol = inet.Protocol();
+            if(string.IsNullOrEmpty(domain)) domain = inet.DomainName();
             var Path = "/" + Utils.Slashify(imdb.Words().Select(Utils.Slugify), "/");
 
-            return $"{Protocol}, {Domain}, {Path}";
+            return $"{protocol}://{domain}{Path}";
         }
     }
 }
